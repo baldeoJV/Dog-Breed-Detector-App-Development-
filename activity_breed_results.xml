@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF">
 
-    <!-- Back Button -->
+
     <Button
         android:id="@+id/backButton"
         android:layout_width="wrap_content"
@@ -20,7 +20,6 @@
         android:onClick="onBackPressed" />
 
 
-    <!-- Results Header -->
     <TextView
         android:id="@+id/resultsHeader"
         android:layout_width="wrap_content"
@@ -32,7 +31,7 @@
         android:textStyle="bold"
         android:textColor="#000000" />
 
-    <!-- ScrollView for all content below the header -->
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -46,7 +45,7 @@
             android:orientation="vertical"
             android:gravity="center_horizontal">
 
-            <!-- Dog Image Container -->
+
             <FrameLayout
                 android:id="@+id/dogImageContainer"
                 android:layout_width="200dp"
@@ -57,13 +56,11 @@
                     android:id="@+id/dogImage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background=""
                     android:padding="4dp"
                     android:scaleType="centerCrop"
                     android:contentDescription="Dog breed image" />
             </FrameLayout>
 
-            <!-- Breed Name -->
             <TextView
                 android:id="@+id/breedName"
                 android:layout_width="wrap_content"
@@ -73,7 +70,7 @@
                 android:textStyle="bold"
                 android:textColor="#000000" />
 
-            <!-- Breed Match Percentage -->
+
             <TextView
                 android:id="@+id/breedMatchInfo"
                 android:layout_width="wrap_content"
@@ -82,7 +79,7 @@
                 android:textSize="14sp"
                 android:textColor="#666666" />
 
-            <!-- Breed Information Card -->
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/breedInfoCard"
                 android:layout_width="match_parent"
@@ -101,7 +98,7 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <!-- Breed Information Header -->
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -110,7 +107,7 @@
                         android:textStyle="bold"
                         android:textColor="#000000" />
 
-                    <!-- Personality Section Header -->
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -120,15 +117,15 @@
                         android:textStyle="bold"
                         android:textColor="#333333" />
 
-                    <!-- Dynamic Personality traits list -->
-                    <LinearLayout
-                        android:id="@+id/personalityTraitsList"
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/personalityTraitsRecyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginTop="4dp" />
+                        android:layout_marginTop="4dp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-                    <!-- Lifespan Section Header -->
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -138,16 +135,15 @@
                         android:textStyle="bold"
                         android:textColor="#333333" />
 
-                    <!-- Dynamic Lifespan information -->
-                    <TextView
-                        android:id="@+id/lifespanText"
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/lifespanRecyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:textSize="14sp"
-                        android:textColor="#666666" />
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-                    <!-- Coat & Color Section Header -->
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -157,13 +153,13 @@
                         android:textStyle="bold"
                         android:textColor="#333333" />
 
-                    <!-- Dynamic Coat & Color information list -->
-                    <LinearLayout
-                        android:id="@+id/coatColorList"
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/coatColorRecyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginTop="4dp" />
+                        android:layout_marginTop="4dp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
