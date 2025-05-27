@@ -7,6 +7,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -26,8 +27,8 @@ import java.util.Date;
 import java.util.Locale;
 
 public class BreedResults extends AppCompatActivity {
-    Button backButton;
-    Button cameraButton;
+    ImageButton backButton;
+    ImageButton cameraButton;
     static final int REQUEST_CODE = 22;
     private Uri photoURI;
     private String currentPhotoPath;

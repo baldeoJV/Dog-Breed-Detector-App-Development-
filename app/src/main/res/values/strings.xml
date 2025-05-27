@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">AppDevY3T3</string>
     <string name="dog_result">Dog Result</string>
+    <string name="camera">Camera</string>
+    <string name="back">Back</string>
+    <string name="dog">Dog</string>
+    <string name="dog_1">Dog 1</string>
+    <string name="dog_2">Dog 2</string>
+    <string name="dog_3">Dog 3</string>
 </resources>
