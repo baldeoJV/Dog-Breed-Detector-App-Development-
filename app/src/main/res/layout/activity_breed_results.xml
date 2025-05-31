@@ -96,7 +96,7 @@
                     android:id="@+id/Dog_Result_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
+                    android:layout_margin="8dp"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="2dp">
 
@@ -128,7 +128,7 @@
                     android:id="@+id/Dog_Result_2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
+                    android:layout_margin="8dp"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="2dp">
 
@@ -160,7 +160,7 @@
                     android:id="@+id/Dog_Result_3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
+                    android:layout_margin="8dp"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="2dp">
 

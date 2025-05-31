@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -19,6 +21,7 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -31,6 +34,11 @@ public class MainActivity extends AppCompatActivity {
     static final int REQUEST_CODE = 22;
     private Uri photoURI;
     private String currentPhotoPath;
+
+    ArrayList<DogModel> dogModels = new ArrayList<>();
+    int[] dogImages = {R.drawable.labrador, R.drawable.german_shepard, R.drawable.golden_retriever,
+            R.drawable.bulldog, R.drawable.beagle, R.drawable.poodle, R.drawable.rottweiler,
+            R.drawable.dachshund, R.drawable.siberian_husky, R.drawable.shih_tzu};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +77,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        RecyclerView recyclerView = findViewById(R.id.dogLibrary);
+        setUpDogModels();
+        Dog_RecyclerViewAdapter adapter = new Dog_RecyclerViewAdapter(this, dogModels);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
@@ -92,5 +105,12 @@ public class MainActivity extends AppCompatActivity {
         return image;
     }
 
+    private void setUpDogModels() {
+        String[] dogNames = getResources().getStringArray(R.array.dog_breeds_full_text);
+
+        for (int i = 0; i < dogNames.length; i++) {
+            dogModels.add(new DogModel(dogNames[i], dogImages[i]));
+        }
+    }
 }
 
