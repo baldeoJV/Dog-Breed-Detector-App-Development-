@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/main"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="#F7F7F7">
 
     <!-- App Title -->
     <TextView
@@ -14,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="PawScanner"
-        android:textColor="#000000"
+        android:textColor="#323643"
         android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,27 +44,22 @@
             android:scaleType="fitCenter"
             android:src="@android:drawable/ic_menu_camera" />
     </androidx.cardview.widget.CardView>
-    <!-- Camera Text -->
-
 
     <!-- Dog Library Title -->
-
-
-    <!-- Dog Library ScrollView -->
     <TextView
         android:id="@+id/libraryTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Dog Library"
-        android:textColor="#000000"
+        android:text="@string/dog_library"
+        android:textColor="#323643"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cameraCard" />
 
-
+    <!-- Dog Library ScrollView -->
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -80,8 +76,8 @@
             android:id="@+id/dogLibrary"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#897979"
-            android:contentDescription="Dog_Library"
+            android:background="#606470"
+            android:contentDescription="@string/dog_library"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"/>
     </com.google.android.material.card.MaterialCardView>

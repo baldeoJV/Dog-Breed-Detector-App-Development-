@@ -18,7 +18,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#8BC34A"
+            android:background="#93DEFF"
             app:cardCornerRadius="12dp">
 
             <ImageView
@@ -39,6 +39,7 @@
                 android:text="This is a dog"
                 android:textSize="20sp"
                 android:textStyle="bold"
+                android:textColor="#323643"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/dog_image"
