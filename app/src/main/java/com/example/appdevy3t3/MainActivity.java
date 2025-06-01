@@ -36,16 +36,11 @@ public class MainActivity extends AppCompatActivity {
     static final int REQUEST_CODE = 22;
     private Uri photoURI;
     private String currentPhotoPath;
-    RecyclerView rv_dogList;
 
     // for database connection
     DatabaseHelper dbHelper;
     SQLiteDatabase db;
-
-    ArrayList<DogModel> dogModels = new ArrayList<>();
-    int[] dogImages = {R.drawable.labrador, R.drawable.german_shepard, R.drawable.golden_retriever,
-            R.drawable.bulldog, R.drawable.beagle, R.drawable.poodle, R.drawable.rottweiler,
-            R.drawable.dachshund, R.drawable.siberian_husky, R.drawable.shih_tzu};
+    ArrayList<DogModel> dogList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,54 +79,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//
-//        RecyclerView recyclerView = findViewById(R.id.dogLibrary);
-//        setUpDogModels();
-//        Dog_RecyclerViewAdapter adapter = new Dog_RecyclerViewAdapter(this, dogModels);
-//        recyclerView.setAdapter(adapter);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         RecyclerView rv_dogList = findViewById(R.id.dogLibrary);
-        rv_dogList.setLayoutManager(new LinearLayoutManager(this));
-
-        ArrayList<DogModel> dogList = new ArrayList<>();
-        dbHelper = new DatabaseHelper(this);
-        db = dbHelper.openDatabase();
-
-        Cursor cursor = db.rawQuery("SELECT name, image_url FROM breeds", null);
-        if (cursor.moveToFirst()) {
-            do {
-                String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
-                String imageUrl = cursor.getString(cursor.getColumnIndexOrThrow("image_url"));
-                dogList.add(new DogModel(name, imageUrl));
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        db.close();
-
+        setUpDogModels();
         DogAdapter adapter = new DogAdapter(this, dogList);
         rv_dogList.setAdapter(adapter);
-
-//        Cursor cursor = null;
-//        try {
-//            cursor = db.rawQuery("SELECT name, image_url FROM breeds", null);
-//
-//            if (cursor.moveToFirst()) {
-//                do {
-//                    String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
-//                    String imageUrl = cursor.getString(cursor.getColumnIndexOrThrow("image_url"));
-//                    dogList.add(new DogModel(name, imageUrl));
-//                } while (cursor.moveToNext());
-//            }
-//        } catch (Exception e) {
-//            Log.e("DB_ERROR", "Query failed", e);
-//        } finally {
-//            if (cursor != null) {
-//                cursor.close();
-//            }
-//            db.close();
-//        }
-
+        rv_dogList.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
@@ -155,12 +107,20 @@ public class MainActivity extends AppCompatActivity {
         return image;
     }
 
-//    private void setUpDogModels() {
-//        String[] dogNames = getResources().getStringArray(R.array.dog_breeds_full_text);
-//
-//        for (int i = 0; i < dogNames.length; i++) {
-//            dogModels.add(new DogModel(dogNames[i], dogImages[i]));
-//        }
-//    }
+    private void setUpDogModels() {
+        dbHelper = new DatabaseHelper(this);
+        db = dbHelper.openDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT name, image_url FROM breeds", null);
+        if (cursor.moveToFirst()) {
+            do {
+                String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+                String imageUrl = cursor.getString(cursor.getColumnIndexOrThrow("image_url"));
+                dogList.add(new DogModel(name, imageUrl));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+    }
 }
 
