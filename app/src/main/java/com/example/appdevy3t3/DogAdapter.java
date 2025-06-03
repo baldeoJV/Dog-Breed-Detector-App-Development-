@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 import java.util.List;
 
@@ -32,7 +34,9 @@ public class DogAdapter extends RecyclerView.Adapter<DogAdapter.DogViewHolder> {
     public void onBindViewHolder(@NonNull DogViewHolder holder, int position) {
         DogModel dog = dogList.get(position);
         holder.tv_dogName.setText(dog.getDog_name());
-        Picasso.get().load(dog.getImageUrl()).into(holder.img_dog);
+//        Picasso.get().load(dog.getImageUrl()).into(holder.img_dog);
+        Glide.with(context).load(dog.getImageUrl()).into(holder.img_dog);
+
     }
 
     @Override

@@ -132,5 +132,47 @@ public class MainActivity extends AppCompatActivity {
         cursor.close();
         db.close();
     }
+
+//    private void setUpDogModels() {
+//        dbHelper = new DatabaseHelper(this);
+//        db = dbHelper.openDatabase();
+//
+//        Cursor cursor = db.rawQuery("SELECT name, image_url, bred_for, breed_group, life_span, temperament, " +
+//                "min_weight, max_weight, min_height, max_height, min_expectancy, max_expectancy, grooming, " +
+//                "shedding, energy_level, trainability, demeanor FROM breeds", null);
+//
+//        if (cursor.moveToFirst()) {
+//            do {
+//                String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+//                String imageUrl = cursor.getString(cursor.getColumnIndexOrThrow("image_url"));
+//                String bredFor = cursor.getString(cursor.getColumnIndexOrThrow("bred_for"));
+//                String breedGroup = cursor.getString(cursor.getColumnIndexOrThrow("breed_group"));
+//                String lifeSpan = cursor.getString(cursor.getColumnIndexOrThrow("life_span"));
+//                String temperament = cursor.getString(cursor.getColumnIndexOrThrow("temperament"));
+//                String weightMin = cursor.getString(cursor.getColumnIndexOrThrow("min_weight"));
+//                String weightMax = cursor.getString(cursor.getColumnIndexOrThrow("max_weight"));
+//                String heightMin = cursor.getString(cursor.getColumnIndexOrThrow("min_height"));
+//                String heightMax = cursor.getString(cursor.getColumnIndexOrThrow("max_height"));
+//                String expectancyMin = cursor.getString(cursor.getColumnIndexOrThrow("min_expectancy"));
+//                String expectancyMax = cursor.getString(cursor.getColumnIndexOrThrow("max_expectancy"));
+//                String grooming = cursor.getString(cursor.getColumnIndexOrThrow("grooming"));
+//                String shedding = cursor.getString(cursor.getColumnIndexOrThrow("shedding"));
+//                String energyLevel = cursor.getString(cursor.getColumnIndexOrThrow("energy_level"));
+//                String trainability = cursor.getString(cursor.getColumnIndexOrThrow("trainability"));
+//                String demeanor = cursor.getString(cursor.getColumnIndexOrThrow("demeanor"));
+//
+//                DogModel dog = new DogModel(
+//                        name, imageUrl, bredFor, breedGroup, lifeSpan, temperament,
+//                        weightMin, weightMax, heightMin, heightMax,
+//                        expectancyMin, expectancyMax, grooming, shedding,
+//                        energyLevel, trainability, demeanor
+//                );
+//                dogList.add(dog);
+//            } while (cursor.moveToNext());
+//        }
+//
+//        cursor.close();
+//        db.close();
+//    }
 }
 
