@@ -6,10 +6,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 
 import androidx.activity.EdgeToEdge;
@@ -40,7 +38,7 @@ public class BreedResults extends AppCompatActivity {
         setContentView(R.layout.activity_breed_results);
 
         //Makes sure the app doesn't overlap with the phone's UI (status bar, navigation bar, etc.)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.result), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.ScrollView), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
