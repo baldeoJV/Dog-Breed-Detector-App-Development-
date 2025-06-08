@@ -38,7 +38,7 @@ public class BreedResults extends AppCompatActivity {
         setContentView(R.layout.activity_breed_results);
 
         //Makes sure the app doesn't overlap with the phone's UI (status bar, navigation bar, etc.)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.ScrollView), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.Dog_Information), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -52,7 +52,7 @@ public class BreedResults extends AppCompatActivity {
             imageResults.setImageURI(imageUri);
         }
 
-        backButton = findViewById(R.id.button);
+        backButton = findViewById(R.id.backButton);
         cameraButton = findViewById(R.id.button2);
 
         backButton.setOnClickListener(new View.OnClickListener() {

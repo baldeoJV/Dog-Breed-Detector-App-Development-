@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 public class DogAdapter extends RecyclerView.Adapter<DogAdapter.DogViewHolder> {
@@ -40,7 +40,7 @@ public class DogAdapter extends RecyclerView.Adapter<DogAdapter.DogViewHolder> {
 
         // Make the whole flash card clickable
         holder.itemView.setOnClickListener(view -> {
-            Intent intent = new Intent(context, ResultsActivity.class); // Replace with your actual activity
+            Intent intent = new Intent(context, Dog_Library_Results.class); // Replace with your actual activity
             intent.putExtra("dog_name", dog.getDog_name());
             intent.putExtra("image_url", dog.getImageUrl());
             intent.putExtra("bred_for", dog.getBredFor());

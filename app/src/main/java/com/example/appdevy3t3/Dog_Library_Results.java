@@ -2,16 +2,22 @@ package com.example.appdevy3t3;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
 
-public class ResultsActivity extends AppCompatActivity {
+public class Dog_Library_Results extends AppCompatActivity {
 
     ImageView dogImage;
+    ImageButton backButton;
     TextView dogName, bredFor, breedGroup, lifespan, temperament,
             weightRange, heightRange, expectancyRange,
             grooming, shedding, energyLevel, trainability, demeanor, description;
@@ -20,6 +26,11 @@ public class ResultsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dog_library); // Make sure this layout exists
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.Dog_Information), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
         // Initialize your views
         dogImage = findViewById(R.id.dogImage);
@@ -55,6 +66,16 @@ public class ResultsActivity extends AppCompatActivity {
         trainability.setText(intent.getStringExtra("trainability"));
         demeanor.setText(intent.getStringExtra("demeanor"));
         description.setText(intent.getStringExtra("description"));
+
+        backButton = findViewById(R.id.backButton);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Dog_Library_Results.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 }
