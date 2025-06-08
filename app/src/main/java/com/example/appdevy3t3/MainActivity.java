@@ -121,12 +121,85 @@ public class MainActivity extends AppCompatActivity {
         dbHelper = new DatabaseHelper(this);
         db = dbHelper.openDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT name, image_url FROM breeds", null);
+        String query = "SELECT\n" +
+                "    b.id,\n" +
+                "    b.name,\n" +
+                "    b.bred_for,\n" +
+                "    b.breed_group,\n" +
+                "    b.life_span,\n" +
+                "    b.temperament AS breed_temperament,\n" +
+                "    b.reference_image_id,\n" +
+                "    b.imperial_weight,\n" +
+                "    b.metric_weight,\n" +
+                "    b.imperial_height,\n" +
+                "    b.metric_height,\n" +
+                "    b.image_id,\n" +
+                "    b.image_url,\n" +
+                "    b.image_width,\n" +
+                "    b.image_height,\n" +
+                "    b.image_blob,\n" +
+                "    \n" +
+                "    akc.description,\n" +
+                "    akc.temperament AS akc_temperament,\n" +
+                "    ROUND(akc.min_height, 2) AS min_height,\n" +
+                "    ROUND(akc.max_height, 2) AS max_height,\n" +
+                "    ROUND(akc.min_weight, 2) AS min_weight,\n" +
+                "    ROUND(akc.max_weight, 2) AS max_weight,\n" +
+                "    ROUND(akc.min_expectancy, 2) AS min_expectancy,\n" +
+                "    ROUND(akc.max_expectancy, 2) AS max_expectancy,\n" +
+                "    akc.grooming_frequency_category,\n" +
+                "    akc.shedding_category,\n" +
+                "    akc.energy_level_category,\n" +
+                "    akc.trainability_category,\n" +
+                "    akc.demeanor_category\n" +
+                "FROM breeds AS b\n" +
+                "JOIN akc_data AS akc ON akc.name = b.name\n" +
+                "WHERE\n" +
+                "    b.bred_for IS NOT NULL\n" +
+                "    AND b.breed_group IS NOT NULL\n" +
+                "    AND b.life_span IS NOT NULL\n" +
+                "    AND b.temperament IS NOT NULL\n" +
+                "    AND akc.min_height IS NOT NULL\n" +
+                "    AND akc.max_height IS NOT NULL\n" +
+                "    AND akc.min_weight IS NOT NULL\n" +
+                "    AND akc.max_weight IS NOT NULL\n" +
+                "    AND akc.min_expectancy IS NOT NULL\n" +
+                "    AND akc.max_expectancy IS NOT NULL\n" +
+                "    AND akc.grooming_frequency_category IS NOT NULL\n" +
+                "    AND akc.shedding_category IS NOT NULL\n" +
+                "    AND akc.energy_level_category IS NOT NULL\n" +
+                "    AND akc.trainability_category IS NOT NULL\n" +
+                "    AND akc.demeanor_category IS NOT NULL\n" +
+                "    AND akc.description IS NOT NULL;\n";
+
+        Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
             do {
-                String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+                String dog_name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
                 String imageUrl = cursor.getString(cursor.getColumnIndexOrThrow("image_url"));
-                dogList.add(new DogModel(name, imageUrl));
+
+                String bredFor = cursor.getString(cursor.getColumnIndexOrThrow("bred_for"));
+                String breedGroup = cursor.getString(cursor.getColumnIndexOrThrow("breed_group"));
+                String lifespan = cursor.getString(cursor.getColumnIndexOrThrow("life_span"));
+                String temperament = cursor.getString(cursor.getColumnIndexOrThrow("breed_temperament"));
+                String weightRange = cursor.getString(cursor.getColumnIndexOrThrow("min_weight")) + " kg - " +
+                        cursor.getString(cursor.getColumnIndexOrThrow("max_weight")) + " kg";
+                String heightRange = cursor.getString(cursor.getColumnIndexOrThrow("min_height")) + " cm - " +
+                        cursor.getString(cursor.getColumnIndexOrThrow("max_height")) + " cm";
+                String expectancyRange = cursor.getString(cursor.getColumnIndexOrThrow("min_expectancy")) + " years - " +
+                        cursor.getString(cursor.getColumnIndexOrThrow("max_expectancy")) + " years";
+                String grooming = cursor.getString(cursor.getColumnIndexOrThrow("grooming_frequency_category"));
+                String shedding = cursor.getString(cursor.getColumnIndexOrThrow("shedding_category"));
+                String energyLevel = cursor.getString(cursor.getColumnIndexOrThrow("energy_level_category"));
+                String trainability = cursor.getString(cursor.getColumnIndexOrThrow("trainability_category"));
+                String demeanor = cursor.getString(cursor.getColumnIndexOrThrow("demeanor_category"));
+                String description = cursor.getString(cursor.getColumnIndexOrThrow("description"));
+
+                dogList.add(new DogModel(dog_name, imageUrl,
+                        bredFor, breedGroup, lifespan, temperament,
+                        weightRange, heightRange, expectancyRange, grooming,
+                         shedding, energyLevel, trainability, demeanor,
+                         description));
             } while (cursor.moveToNext());
         }
         cursor.close();

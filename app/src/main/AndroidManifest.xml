@@ -20,6 +20,10 @@
         android:theme="@style/Theme.AppDevY3T3"
         tools:targetApi="31">
         <activity
+            android:name=".ResultsActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".Dog_Library"
             android:exported="false" />
         <activity

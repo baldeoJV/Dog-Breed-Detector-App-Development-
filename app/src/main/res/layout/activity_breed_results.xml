@@ -55,7 +55,7 @@
 
         <!-- Dog Image -->
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/dogImage"
             android:layout_width="257dp"
             android:layout_height="273dp"
             android:layout_marginTop="16dp"
@@ -67,7 +67,7 @@
 
         <!-- Dog Name -->
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/dogName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -76,7 +76,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintTop_toBottomOf="@+id/dogImage" />
 
         <!-- Breed Info Card -->
         <androidx.cardview.widget.CardView
@@ -89,7 +89,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/dogName"
             app:layout_constraintVertical_bias="0.01">
 
             <LinearLayout

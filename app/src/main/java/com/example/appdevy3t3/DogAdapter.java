@@ -1,6 +1,7 @@
 package com.example.appdevy3t3;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,27 @@ public class DogAdapter extends RecyclerView.Adapter<DogAdapter.DogViewHolder> {
         holder.tv_dogName.setText(dog.getDog_name());
 //        Picasso.get().load(dog.getImageUrl()).into(holder.img_dog);
         Glide.with(context).load(dog.getImageUrl()).into(holder.img_dog);
+
+        // Make the whole flash card clickable
+        holder.itemView.setOnClickListener(view -> {
+            Intent intent = new Intent(context, ResultsActivity.class); // Replace with your actual activity
+            intent.putExtra("dog_name", dog.getDog_name());
+            intent.putExtra("image_url", dog.getImageUrl());
+            intent.putExtra("bred_for", dog.getBredFor());
+            intent.putExtra("breed_group", dog.getBreedGroup());
+            intent.putExtra("lifespan", dog.getLifespan());
+            intent.putExtra("temperament", dog.getTemperament());
+            intent.putExtra("weight_range", dog.getWeightRange());
+            intent.putExtra("height_range", dog.getHeightRange());
+            intent.putExtra("expectancy_range", dog.getExpectancyRange());
+            intent.putExtra("grooming", dog.getGrooming());
+            intent.putExtra("shedding", dog.getShedding());
+            intent.putExtra("energy_level", dog.getEnergyLevel());
+            intent.putExtra("trainability", dog.getTrainability());
+            intent.putExtra("demeanor", dog.getDemeanor());
+            intent.putExtra("description", dog.getDescription());
+            context.startActivity(intent);
+        });
 
     }
 

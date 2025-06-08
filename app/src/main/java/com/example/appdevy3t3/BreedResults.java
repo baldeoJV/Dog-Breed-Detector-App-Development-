@@ -44,7 +44,7 @@ public class BreedResults extends AppCompatActivity {
             return insets;
         });
 
-        ImageView imageResults = findViewById(R.id.imageView);
+        ImageView imageResults = findViewById(R.id.dogImage);
         String imagePath = getIntent().getStringExtra("image_path");
 
         if (imagePath != null) {
@@ -93,7 +93,7 @@ public class BreedResults extends AppCompatActivity {
 
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
             if (photoURI != null) {
-                ImageView imageResults = findViewById(R.id.imageView);
+                ImageView imageResults = findViewById(R.id.dogImage);
                 imageResults.setImageURI(photoURI);
             }
         }

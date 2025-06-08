@@ -41,7 +41,7 @@
 
         <!-- Dog Image -->
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/dogImage"
             android:layout_width="257dp"
             android:layout_height="273dp"
             android:layout_marginTop="16dp"
@@ -53,7 +53,7 @@
 
         <!-- Dog Name -->
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/dogName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -62,7 +62,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintTop_toBottomOf="@+id/dogImage" />
 
         <!-- Breed Info Card -->
         <androidx.cardview.widget.CardView
@@ -75,7 +75,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/dogName"
             app:layout_constraintVertical_bias="0.01">
 
             <LinearLayout
@@ -99,9 +99,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:text="Bred For:"
-                    android:textStyle="bold"
-                    android:layout_marginTop="8dp" />
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/bredFor"
                     android:layout_width="wrap_content"
@@ -112,9 +113,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:text="Breed Group:"
-                    android:textStyle="bold"
-                    android:layout_marginTop="8dp" />
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/breedGroup"
                     android:layout_width="wrap_content"
@@ -125,9 +127,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:text="Life Span:"
-                    android:textStyle="bold"
-                    android:layout_marginTop="8dp" />
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/lifeSpan"
                     android:layout_width="wrap_content"
@@ -138,9 +141,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:text="Temperament:"
-                    android:textStyle="bold"
-                    android:layout_marginTop="8dp" />
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/temperament"
                     android:layout_width="wrap_content"
@@ -151,9 +155,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:text="Weight (Min–Max):"
-                    android:textStyle="bold"
-                    android:layout_marginTop="8dp" />
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/weightRange"
                     android:layout_width="wrap_content"
@@ -164,9 +169,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:text="Height (Min–Max):"
-                    android:textStyle="bold"
-                    android:layout_marginTop="8dp" />
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/heightRange"
                     android:layout_width="wrap_content"
@@ -177,9 +183,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:text="Life Expectancy (Min–Max):"
-                    android:textStyle="bold"
-                    android:layout_marginTop="8dp" />
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/expectancyRange"
                     android:layout_width="wrap_content"
@@ -190,9 +197,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:text="Grooming:"
-                    android:textStyle="bold"
-                    android:layout_marginTop="8dp" />
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/grooming"
                     android:layout_width="wrap_content"
@@ -203,9 +211,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:text="Shedding:"
-                    android:textStyle="bold"
-                    android:layout_marginTop="8dp" />
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/shedding"
                     android:layout_width="wrap_content"
@@ -216,9 +225,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:text="Energy Level:"
-                    android:textStyle="bold"
-                    android:layout_marginTop="8dp" />
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/energyLevel"
                     android:layout_width="wrap_content"
@@ -229,9 +239,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:text="Trainability:"
-                    android:textStyle="bold"
-                    android:layout_marginTop="8dp" />
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/trainability"
                     android:layout_width="wrap_content"
@@ -242,14 +253,29 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:text="Demeanor:"
-                    android:textStyle="bold"
-                    android:layout_marginTop="8dp" />
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/demeanor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Gentle and family-friendly" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Description:"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco." />
 
 
             </LinearLayout>
