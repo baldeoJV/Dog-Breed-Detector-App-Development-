@@ -243,7 +243,9 @@ public class MainActivity extends AppCompatActivity {
                         "    AND akc.energy_level_category IS NOT NULL\n" +
                         "    AND akc.trainability_category IS NOT NULL\n" +
                         "    AND akc.demeanor_category IS NOT NULL\n" +
-                        "    AND akc.description IS NOT NULL;\n";
+                        "    AND akc.description IS NOT NULL\n" +
+                        "    AND b.name LIKE '%" + predictedDogName + "%' COLLATE NOCASE;";
+
 
                 Cursor cursor = db.rawQuery(query, null);
                 if (cursor.moveToFirst()) {
@@ -266,6 +268,8 @@ public class MainActivity extends AppCompatActivity {
                         String trainability = cursor.getString(cursor.getColumnIndexOrThrow("trainability_category"));
                         String demeanor = cursor.getString(cursor.getColumnIndexOrThrow("demeanor_category"));
                         String description = cursor.getString(cursor.getColumnIndexOrThrow("description"));
+
+
 
                         intent.putExtra("dog_name", dog_name);
 
