@@ -8,6 +8,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 
 import androidx.activity.EdgeToEdge;
@@ -30,6 +31,7 @@ public class BreedResults extends AppCompatActivity {
     static final int REQUEST_CODE = 22;
     private Uri photoURI;
     private String currentPhotoPath;
+    TextView dogName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +47,11 @@ public class BreedResults extends AppCompatActivity {
         });
 
         ImageView imageResults = findViewById(R.id.dogImage);
+        dogName = findViewById(R.id.dogName);
+
         String imagePath = getIntent().getStringExtra("image_path");
+        String dogName = getIntent().getStringExtra("dog_name");
+
 
         if (imagePath != null) {
             Uri imageUri = Uri.parse(imagePath);

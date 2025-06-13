@@ -43,7 +43,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 Log.e("DB_COPY", "Failed to copy database: " + e.getMessage(), e);
             }
         } else {
-            Log.d("DB_COPY", "Database already exists at: " + dbFile.getAbsolutePath());
+            Log.d("DB_COPY", "Database already exists");
         }
     }
 
@@ -62,7 +62,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = null;
         try {
             db = SQLiteDatabase.openDatabase(fullPath, null, SQLiteDatabase.OPEN_READONLY);
-            Log.d("DB_OPEN", "Database opened successfully from: " + fullPath);
+            Log.d("DB_OPEN", "Database opened successfully");
         } catch (Exception e) {
             Log.e("DB_OPEN", "Failed to open database: " + e.getMessage(), e);
         }

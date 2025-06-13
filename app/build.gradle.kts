@@ -6,6 +6,10 @@ android {
     namespace = "com.example.appdevy3t3"
     compileSdk = 35
 
+    buildFeatures {
+        mlModelBinding = true
+    }
+
     defaultConfig {
         applicationId = "com.example.appdevy3t3"
         minSdk = 33
@@ -14,6 +18,10 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    aaptOptions {
+        noCompress += "tflite"
     }
 
     buildTypes {
@@ -25,14 +33,16 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+        isCoreLibraryDesugaringEnabled = true
     }
+
 }
 
 dependencies {
-
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
@@ -41,11 +51,18 @@ dependencies {
     implementation(libs.espresso.intents)
     implementation("com.squareup.picasso:picasso:2.71828")
     implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation("org.tensorflow:tensorflow-lite:2.12.0")
+    implementation("org.tensorflow:tensorflow-lite-support:0.4.3") // For image preprocessing
+    implementation("org.tensorflow:tensorflow-lite:2.5.0")
+    implementation(libs.play.services.tasks)
+    implementation(libs.tensorflow.lite.metadata)
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation("androidx.test:runner:1.6.1")
     androidTestImplementation("androidx.test:runner:1.6.1")
+
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.3")
 
 }

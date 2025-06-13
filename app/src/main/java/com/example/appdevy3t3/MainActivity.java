@@ -11,16 +11,20 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -28,13 +32,21 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import android.Manifest;
 import android.util.Log;
 
+import org.tensorflow.lite.support.common.FileUtil;
+import org.tensorflow.lite.support.model.Model;
+import org.tensorflow.lite.Interpreter;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 public class MainActivity extends AppCompatActivity {
+    int NUM_CLASSES = 120;
     ImageButton btnpicture;
     static final int REQUEST_CODE = 22;
     private Uri photoURI;
@@ -44,6 +56,11 @@ public class MainActivity extends AppCompatActivity {
     DatabaseHelper dbHelper;
     SQLiteDatabase db;
     ArrayList<DogModel> dogList = new ArrayList<>();
+    int imageSize = 224;
+    List<String> classNames;
+    String predictedDogName = "";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +81,15 @@ public class MainActivity extends AppCompatActivity {
                     new String[]{Manifest.permission.CAMERA},
                     100);
         }
+
+        //load the dog_breeds.txt for the model
+        try {
+            classNames = FileUtil.loadLabels(this, "dog_breeds.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Failed to load labels", Toast.LENGTH_SHORT).show();
+        }
+
 
         btnpicture = findViewById(R.id.cameraButton);
 
@@ -95,16 +121,93 @@ public class MainActivity extends AppCompatActivity {
         rv_dogList.setAdapter(adapter);
         rv_dogList.setLayoutManager(new LinearLayoutManager(this));
     }
+    public void classifyImage(Bitmap image) {
+        try {
+            // Load the model
+            Interpreter interpreter = new Interpreter(
+                    FileUtil.loadMappedFile(this, "model_experimental_v2_224.tflite"));
+
+            // Preprocess image (resize + normalize)
+            Bitmap resized = Bitmap.createScaledBitmap(image, 224, 224, true);
+            ByteBuffer inputBuffer = convertBitmapToByteBuffer(resized);
+
+            // Create output buffer (adjust size according to your model's output)
+            float[][] output = new float[1][NUM_CLASSES];  // based on the model size output
+
+            // Run inference
+            interpreter.run(inputBuffer, output);
+
+            // Find the highest confidence label
+            int maxIndex = 0;
+            float maxProb = 0;
+            for (int i = 0; i < output[0].length; i++) {
+                if (output[0][i] > maxProb) {
+                    maxProb = output[0][i];
+                    maxIndex = i;
+                }
+            }
+
+            predictedDogName = classNames.get(maxIndex); // store it in the class variable
+            Log.d("TFLITE", "Predicted: " + predictedDogName + " (confidence: " + maxProb + ")");
+            Toast.makeText(this, "Predicted: " + predictedDogName, Toast.LENGTH_LONG).show();
+
+            interpreter.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private ByteBuffer convertBitmapToByteBuffer(Bitmap bitmap) {
+        ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4 * 224 * 224 * 3);
+        byteBuffer.order(ByteOrder.nativeOrder());
+
+        int[] intValues = new int[224 * 224];
+        bitmap.getPixels(intValues, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
+
+        int pixel = 0;
+        for (int i = 0; i < 224; ++i) {
+            for (int j = 0; j < 224; ++j) {
+                int val = intValues[pixel++];
+                // Normalize RGB values to [0,1] by dividing by 255
+                byteBuffer.putFloat(((val >> 16) & 0xFF) / 255.f);
+                byteBuffer.putFloat(((val >> 8) & 0xFF) / 255.f);
+                byteBuffer.putFloat((val & 0xFF) / 255.f);
+            }
+        }
+        return byteBuffer;
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        try{
+            if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+    //            assert data != null;
+    //            Bitmap image = (Bitmap) Objects.requireNonNull(data.getExtras()).get("data");
+    //
+    //            assert image != null;
+    //            int dimension = Math.min(image.getWidth(), image.getHeight());
+    //            image = ThumbnailUtils.extractThumbnail(image, dimension, dimension);
 
-        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
-            Intent intent = new Intent(MainActivity.this, BreedResults.class);
-            intent.putExtra("image_path", photoURI.toString());
-            startActivity(intent);
+                // Convert URI to bitmap and resize the image to 32x32 pixels
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoURI);
+                Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, imageSize, imageSize, true);
+
+                //classify the dog breed
+                classifyImage(resizedBitmap);
+
+                Intent intent = new Intent(MainActivity.this, BreedResults.class);
+                intent.putExtra("image_path", photoURI.toString()); // pass the image
+                intent.putExtra("dog_name", predictedDogName); // pass the dog name
+                startActivity(intent);
+
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
+
+
     }
 
     private File createImageFile() throws IOException {
@@ -177,7 +280,7 @@ public class MainActivity extends AppCompatActivity {
             do {
                 String dog_name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
                 String imageUrl = cursor.getString(cursor.getColumnIndexOrThrow("image_url"));
-
+                
                 String bredFor = cursor.getString(cursor.getColumnIndexOrThrow("bred_for"));
                 String breedGroup = cursor.getString(cursor.getColumnIndexOrThrow("breed_group"));
                 String lifespan = cursor.getString(cursor.getColumnIndexOrThrow("life_span"));
@@ -205,47 +308,5 @@ public class MainActivity extends AppCompatActivity {
         cursor.close();
         db.close();
     }
-
-//    private void setUpDogModels() {
-//        dbHelper = new DatabaseHelper(this);
-//        db = dbHelper.openDatabase();
-//
-//        Cursor cursor = db.rawQuery("SELECT name, image_url, bred_for, breed_group, life_span, temperament, " +
-//                "min_weight, max_weight, min_height, max_height, min_expectancy, max_expectancy, grooming, " +
-//                "shedding, energy_level, trainability, demeanor FROM breeds", null);
-//
-//        if (cursor.moveToFirst()) {
-//            do {
-//                String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
-//                String imageUrl = cursor.getString(cursor.getColumnIndexOrThrow("image_url"));
-//                String bredFor = cursor.getString(cursor.getColumnIndexOrThrow("bred_for"));
-//                String breedGroup = cursor.getString(cursor.getColumnIndexOrThrow("breed_group"));
-//                String lifeSpan = cursor.getString(cursor.getColumnIndexOrThrow("life_span"));
-//                String temperament = cursor.getString(cursor.getColumnIndexOrThrow("temperament"));
-//                String weightMin = cursor.getString(cursor.getColumnIndexOrThrow("min_weight"));
-//                String weightMax = cursor.getString(cursor.getColumnIndexOrThrow("max_weight"));
-//                String heightMin = cursor.getString(cursor.getColumnIndexOrThrow("min_height"));
-//                String heightMax = cursor.getString(cursor.getColumnIndexOrThrow("max_height"));
-//                String expectancyMin = cursor.getString(cursor.getColumnIndexOrThrow("min_expectancy"));
-//                String expectancyMax = cursor.getString(cursor.getColumnIndexOrThrow("max_expectancy"));
-//                String grooming = cursor.getString(cursor.getColumnIndexOrThrow("grooming"));
-//                String shedding = cursor.getString(cursor.getColumnIndexOrThrow("shedding"));
-//                String energyLevel = cursor.getString(cursor.getColumnIndexOrThrow("energy_level"));
-//                String trainability = cursor.getString(cursor.getColumnIndexOrThrow("trainability"));
-//                String demeanor = cursor.getString(cursor.getColumnIndexOrThrow("demeanor"));
-//
-//                DogModel dog = new DogModel(
-//                        name, imageUrl, bredFor, breedGroup, lifeSpan, temperament,
-//                        weightMin, weightMax, heightMin, heightMax,
-//                        expectancyMin, expectancyMax, grooming, shedding,
-//                        energyLevel, trainability, demeanor
-//                );
-//                dogList.add(dog);
-//            } while (cursor.moveToNext());
-//        }
-//
-//        cursor.close();
-//        db.close();
-//    }
 }
 
