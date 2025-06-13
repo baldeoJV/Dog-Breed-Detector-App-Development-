@@ -149,8 +149,6 @@ public class MainActivity extends AppCompatActivity {
 
             predictedDogName = classNames.get(maxIndex); // store it in the class variable
             Log.d("TFLITE", "Predicted: " + predictedDogName + " (confidence: " + maxProb + ")");
-            Toast.makeText(this, "Predicted: " + predictedDogName, Toast.LENGTH_LONG).show();
-
             interpreter.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -169,9 +167,9 @@ public class MainActivity extends AppCompatActivity {
             for (int j = 0; j < 224; ++j) {
                 int val = intValues[pixel++];
                 // Normalize RGB values to [0,1] by dividing by 255
-                byteBuffer.putFloat(((val >> 16) & 0xFF) / 255.f);
-                byteBuffer.putFloat(((val >> 8) & 0xFF) / 255.f);
-                byteBuffer.putFloat((val & 0xFF) / 255.f);
+                byteBuffer.putFloat(((val >> 16) & 0xFF));
+                byteBuffer.putFloat(((val >> 8) & 0xFF));
+                byteBuffer.putFloat((val & 0xFF));
             }
         }
         return byteBuffer;
@@ -183,12 +181,6 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         try{
             if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
-    //            assert data != null;
-    //            Bitmap image = (Bitmap) Objects.requireNonNull(data.getExtras()).get("data");
-    //
-    //            assert image != null;
-    //            int dimension = Math.min(image.getWidth(), image.getHeight());
-    //            image = ThumbnailUtils.extractThumbnail(image, dimension, dimension);
 
                 // Convert URI to bitmap and resize the image to 32x32 pixels
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoURI);
@@ -198,8 +190,106 @@ public class MainActivity extends AppCompatActivity {
                 classifyImage(resizedBitmap);
 
                 Intent intent = new Intent(MainActivity.this, BreedResults.class);
+
+                dbHelper = new DatabaseHelper(this);
+                db = dbHelper.openDatabase();
+
+                String query = "SELECT\n" +
+                        "    b.id,\n" +
+                        "    b.name,\n" +
+                        "    b.bred_for,\n" +
+                        "    b.breed_group,\n" +
+                        "    b.life_span,\n" +
+                        "    b.temperament AS breed_temperament,\n" +
+                        "    b.reference_image_id,\n" +
+                        "    b.imperial_weight,\n" +
+                        "    b.metric_weight,\n" +
+                        "    b.imperial_height,\n" +
+                        "    b.metric_height,\n" +
+                        "    b.image_id,\n" +
+                        "    b.image_url,\n" +
+                        "    b.image_width,\n" +
+                        "    b.image_height,\n" +
+                        "    b.image_blob,\n" +
+                        "    \n" +
+                        "    akc.description,\n" +
+                        "    akc.temperament AS akc_temperament,\n" +
+                        "    ROUND(akc.min_height, 2) AS min_height,\n" +
+                        "    ROUND(akc.max_height, 2) AS max_height,\n" +
+                        "    ROUND(akc.min_weight, 2) AS min_weight,\n" +
+                        "    ROUND(akc.max_weight, 2) AS max_weight,\n" +
+                        "    ROUND(akc.min_expectancy, 2) AS min_expectancy,\n" +
+                        "    ROUND(akc.max_expectancy, 2) AS max_expectancy,\n" +
+                        "    akc.grooming_frequency_category,\n" +
+                        "    akc.shedding_category,\n" +
+                        "    akc.energy_level_category,\n" +
+                        "    akc.trainability_category,\n" +
+                        "    akc.demeanor_category\n" +
+                        "FROM breeds AS b\n" +
+                        "JOIN akc_data AS akc ON akc.name = b.name\n" +
+                        "WHERE\n" +
+                        "    b.bred_for IS NOT NULL\n" +
+                        "    AND b.breed_group IS NOT NULL\n" +
+                        "    AND b.life_span IS NOT NULL\n" +
+                        "    AND b.temperament IS NOT NULL\n" +
+                        "    AND akc.min_height IS NOT NULL\n" +
+                        "    AND akc.max_height IS NOT NULL\n" +
+                        "    AND akc.min_weight IS NOT NULL\n" +
+                        "    AND akc.max_weight IS NOT NULL\n" +
+                        "    AND akc.min_expectancy IS NOT NULL\n" +
+                        "    AND akc.max_expectancy IS NOT NULL\n" +
+                        "    AND akc.grooming_frequency_category IS NOT NULL\n" +
+                        "    AND akc.shedding_category IS NOT NULL\n" +
+                        "    AND akc.energy_level_category IS NOT NULL\n" +
+                        "    AND akc.trainability_category IS NOT NULL\n" +
+                        "    AND akc.demeanor_category IS NOT NULL\n" +
+                        "    AND akc.description IS NOT NULL;\n";
+
+                Cursor cursor = db.rawQuery(query, null);
+                if (cursor.moveToFirst()) {
+                    do {
+                        String dog_name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+
+                        String bredFor = cursor.getString(cursor.getColumnIndexOrThrow("bred_for"));
+                        String breedGroup = cursor.getString(cursor.getColumnIndexOrThrow("breed_group"));
+                        String lifespan = cursor.getString(cursor.getColumnIndexOrThrow("life_span"));
+                        String temperament = cursor.getString(cursor.getColumnIndexOrThrow("breed_temperament"));
+                        String weightRange = cursor.getString(cursor.getColumnIndexOrThrow("min_weight")) + " kg - " +
+                                cursor.getString(cursor.getColumnIndexOrThrow("max_weight")) + " kg";
+                        String heightRange = cursor.getString(cursor.getColumnIndexOrThrow("min_height")) + " cm - " +
+                                cursor.getString(cursor.getColumnIndexOrThrow("max_height")) + " cm";
+                        String expectancyRange = cursor.getString(cursor.getColumnIndexOrThrow("min_expectancy")) + " years - " +
+                                cursor.getString(cursor.getColumnIndexOrThrow("max_expectancy")) + " years";
+                        String grooming = cursor.getString(cursor.getColumnIndexOrThrow("grooming_frequency_category"));
+                        String shedding = cursor.getString(cursor.getColumnIndexOrThrow("shedding_category"));
+                        String energyLevel = cursor.getString(cursor.getColumnIndexOrThrow("energy_level_category"));
+                        String trainability = cursor.getString(cursor.getColumnIndexOrThrow("trainability_category"));
+                        String demeanor = cursor.getString(cursor.getColumnIndexOrThrow("demeanor_category"));
+                        String description = cursor.getString(cursor.getColumnIndexOrThrow("description"));
+
+                        intent.putExtra("dog_name", dog_name);
+
+                        intent.putExtra("bred_for", bredFor);
+                        intent.putExtra("breed_group", breedGroup);
+                        intent.putExtra("lifespan", lifespan);
+                        intent.putExtra("temperament", temperament);
+                        intent.putExtra("weight_range", weightRange);
+                        intent.putExtra("height_range", heightRange);
+                        intent.putExtra("expectancy_range", expectancyRange);
+                        intent.putExtra("grooming", grooming);
+                        intent.putExtra("shedding", shedding);
+                        intent.putExtra("energy_level", energyLevel);
+                        intent.putExtra("trainability", trainability);
+                        intent.putExtra("demeanor", demeanor);
+                        intent.putExtra("description", description);
+
+                    } while (cursor.moveToNext());
+                }
+                cursor.close();
+                db.close();
+
                 intent.putExtra("image_path", photoURI.toString()); // pass the image
-                intent.putExtra("dog_name", predictedDogName); // pass the dog name
+//                intent.putExtra("dog_name", predictedDogName); // pass the dog name
                 startActivity(intent);
 
             }
@@ -219,6 +309,7 @@ public class MainActivity extends AppCompatActivity {
         currentPhotoPath = image.getAbsolutePath(); // Store the file path for later use
         return image;
     }
+
 
     private void setUpDogModels() {
         dbHelper = new DatabaseHelper(this);

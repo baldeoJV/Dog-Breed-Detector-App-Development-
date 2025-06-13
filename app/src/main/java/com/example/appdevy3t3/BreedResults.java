@@ -19,6 +19,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -31,7 +33,9 @@ public class BreedResults extends AppCompatActivity {
     static final int REQUEST_CODE = 22;
     private Uri photoURI;
     private String currentPhotoPath;
-    TextView dogName;
+    TextView dogName, bredFor, breedGroup, lifespan, temperament,
+            weightRange, heightRange, expectancyRange,
+            grooming, shedding, energyLevel, trainability, demeanor, description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +51,40 @@ public class BreedResults extends AppCompatActivity {
         });
 
         ImageView imageResults = findViewById(R.id.dogImage);
-        dogName = findViewById(R.id.dogName);
-
         String imagePath = getIntent().getStringExtra("image_path");
-        String dogName = getIntent().getStringExtra("dog_name");
 
+        // Initialize your views
+        dogName = findViewById(R.id.dogName);
+        bredFor = findViewById(R.id.bredFor);
+        breedGroup = findViewById(R.id.breedGroup);
+        lifespan = findViewById(R.id.lifeSpan);
+        temperament = findViewById(R.id.temperament);
+        weightRange = findViewById(R.id.weightRange);
+        heightRange = findViewById(R.id.heightRange);
+        expectancyRange = findViewById(R.id.expectancyRange);
+        grooming = findViewById(R.id.grooming);
+        shedding = findViewById(R.id.shedding);
+        energyLevel = findViewById(R.id.energyLevel);
+        trainability = findViewById(R.id.trainability);
+        demeanor = findViewById(R.id.demeanor);
+        description = findViewById(R.id.description);
+
+        // Get values from Intent
+        Intent intent = getIntent();
+        dogName.setText(intent.getStringExtra("dog_name"));
+        bredFor.setText(intent.getStringExtra("bred_for"));
+        breedGroup.setText(intent.getStringExtra("breed_group"));
+        lifespan.setText(intent.getStringExtra("lifespan"));
+        temperament.setText(intent.getStringExtra("temperament"));
+        weightRange.setText(intent.getStringExtra("weight_range"));
+        heightRange.setText(intent.getStringExtra("height_range"));
+        expectancyRange.setText(intent.getStringExtra("expectancy_range"));
+        grooming.setText(intent.getStringExtra("grooming"));
+        shedding.setText(intent.getStringExtra("shedding"));
+        energyLevel.setText(intent.getStringExtra("energy_level"));
+        trainability.setText(intent.getStringExtra("trainability"));
+        demeanor.setText(intent.getStringExtra("demeanor"));
+        description.setText(intent.getStringExtra("description"));
 
         if (imagePath != null) {
             Uri imageUri = Uri.parse(imagePath);
