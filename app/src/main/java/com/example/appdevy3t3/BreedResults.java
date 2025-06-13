@@ -68,23 +68,77 @@ public class BreedResults extends AppCompatActivity {
         trainability = findViewById(R.id.trainability);
         demeanor = findViewById(R.id.demeanor);
         description = findViewById(R.id.description);
+        backButton = findViewById(R.id.backButton);
 
-        // Get values from Intent
-        Intent intent = getIntent();
-        dogName.setText(intent.getStringExtra("dog_name"));
-        bredFor.setText(intent.getStringExtra("bred_for"));
-        breedGroup.setText(intent.getStringExtra("breed_group"));
-        lifespan.setText(intent.getStringExtra("lifespan"));
-        temperament.setText(intent.getStringExtra("temperament"));
-        weightRange.setText(intent.getStringExtra("weight_range"));
-        heightRange.setText(intent.getStringExtra("height_range"));
-        expectancyRange.setText(intent.getStringExtra("expectancy_range"));
-        grooming.setText(intent.getStringExtra("grooming"));
-        shedding.setText(intent.getStringExtra("shedding"));
-        energyLevel.setText(intent.getStringExtra("energy_level"));
-        trainability.setText(intent.getStringExtra("trainability"));
-        demeanor.setText(intent.getStringExtra("demeanor"));
-        description.setText(intent.getStringExtra("description"));
+        try {
+            Intent intent = getIntent();
+
+            String imageUrl = intent.getStringExtra("image_url");
+            String name = intent.getStringExtra("dog_name");
+            String bredForStr = intent.getStringExtra("bred_for");
+            String breedGroupStr = intent.getStringExtra("breed_group");
+            String lifespanStr = intent.getStringExtra("lifespan");
+            String temperamentStr = intent.getStringExtra("temperament");
+            String weightRangeStr = intent.getStringExtra("weight_range");
+            String heightRangeStr = intent.getStringExtra("height_range");
+            String expectancyRangeStr = intent.getStringExtra("expectancy_range");
+            String groomingStr = intent.getStringExtra("grooming");
+            String sheddingStr = intent.getStringExtra("shedding");
+            String energyLevelStr = intent.getStringExtra("energy_level");
+            String trainabilityStr = intent.getStringExtra("trainability");
+            String demeanorStr = intent.getStringExtra("demeanor");
+            String descriptionStr = intent.getStringExtra("description");
+
+            // Check if data is missing
+            if (name == null) {
+                dogName.setText("No information for this breed");
+                bredFor.setText("-");
+                breedGroup.setText("-");
+                lifespan.setText("-");
+                temperament.setText("-");
+                weightRange.setText("-");
+                heightRange.setText("-");
+                expectancyRange.setText("-");
+                grooming.setText("-");
+                shedding.setText("-");
+                energyLevel.setText("-");
+                trainability.setText("-");
+                demeanor.setText("-");
+                description.setText("-");
+            } else {
+                dogName.setText(name);
+                bredFor.setText(bredForStr != null ? bredForStr : "-");
+                breedGroup.setText(breedGroupStr != null ? breedGroupStr : "-");
+                lifespan.setText(lifespanStr != null ? lifespanStr : "-");
+                temperament.setText(temperamentStr != null ? temperamentStr : "-");
+                weightRange.setText(weightRangeStr != null ? weightRangeStr : "-");
+                heightRange.setText(heightRangeStr != null ? heightRangeStr : "-");
+                expectancyRange.setText(expectancyRangeStr != null ? expectancyRangeStr : "-");
+                grooming.setText(groomingStr != null ? groomingStr : "-");
+                shedding.setText(sheddingStr != null ? sheddingStr : "-");
+                energyLevel.setText(energyLevelStr != null ? energyLevelStr : "-");
+                trainability.setText(trainabilityStr != null ? trainabilityStr : "-");
+                demeanor.setText(demeanorStr != null ? demeanorStr : "-");
+                description.setText(descriptionStr != null ? descriptionStr : "-");
+            }
+
+        } catch (Exception e) {
+            // Fallback if something goes wrong
+            dogName.setText("No information for this breed");
+            bredFor.setText("-");
+            breedGroup.setText("-");
+            lifespan.setText("-");
+            temperament.setText("-");
+            weightRange.setText("-");
+            heightRange.setText("-");
+            expectancyRange.setText("-");
+            grooming.setText("-");
+            shedding.setText("-");
+            energyLevel.setText("-");
+            trainability.setText("-");
+            demeanor.setText("-");
+            description.setText("-");
+        }
 
         if (imagePath != null) {
             Uri imageUri = Uri.parse(imagePath);
