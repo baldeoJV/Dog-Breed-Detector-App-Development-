@@ -1,6 +1,7 @@
 package com.example.appdevy3t3;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -175,14 +176,25 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        try{
+        try {
             if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
-               setUpDgoModels2();
+                new AlertDialog.Builder(this)
+                        .setTitle("Reminder")
+                        .setMessage("The breed prediction is not 100% accurate and is based solely on the dog's appearance. For a more reliable assessment, consult a professional.")
+                        .setPositiveButton("OK", (dialog, which) -> {
+                            // Call your method only after user taps OK
+                            try {
+                                setUpDgoModels2();
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        })
+                        .setCancelable(false) // Optional: prevent dismiss by tapping outside
+                        .show();
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
     }
 
     private File createImageFile() throws IOException {
