@@ -35,12 +35,11 @@ public class DogAdapter extends RecyclerView.Adapter<DogAdapter.DogViewHolder> {
     public void onBindViewHolder(@NonNull DogViewHolder holder, int position) {
         DogModel dog = dogList.get(position);
         holder.tv_dogName.setText(dog.getDog_name());
-//        Picasso.get().load(dog.getImageUrl()).into(holder.img_dog);
         Glide.with(context).load(dog.getImageUrl()).into(holder.img_dog);
 
         // Make the whole flash card clickable
         holder.itemView.setOnClickListener(view -> {
-            Intent intent = new Intent(context, Dog_Library_Results.class); // Replace with your actual activity
+            Intent intent = new Intent(context, Dog_Library_Results.class);
             intent.putExtra("dog_name", dog.getDog_name());
             intent.putExtra("image_url", dog.getImageUrl());
             intent.putExtra("bred_for", dog.getBredFor());
