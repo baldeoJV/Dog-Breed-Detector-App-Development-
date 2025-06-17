@@ -356,45 +356,43 @@ public class BreedResults extends AppCompatActivity {
         // Log the number of rows returned
         Log.d("DogLibrary", "Number of rows returned: " + cursor.getCount());
         if (cursor.moveToFirst()) {
-            do {
-                String dog_name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+            String dog_name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
 
-                String bredFor = cursor.getString(cursor.getColumnIndexOrThrow("bred_for"));
-                String breedGroup = cursor.getString(cursor.getColumnIndexOrThrow("breed_group"));
-                String lifespan = cursor.getString(cursor.getColumnIndexOrThrow("life_span"));
-                String temperament = cursor.getString(cursor.getColumnIndexOrThrow("breed_temperament"));
-                String weightRange = cursor.getString(cursor.getColumnIndexOrThrow("min_weight")) + " kg - " +
-                        cursor.getString(cursor.getColumnIndexOrThrow("max_weight")) + " kg";
-                String heightRange = cursor.getString(cursor.getColumnIndexOrThrow("min_height")) + " cm - " +
-                        cursor.getString(cursor.getColumnIndexOrThrow("max_height")) + " cm";
-                String expectancyRange = cursor.getString(cursor.getColumnIndexOrThrow("min_expectancy")) + " years - " +
-                        cursor.getString(cursor.getColumnIndexOrThrow("max_expectancy")) + " years";
-                String grooming = cursor.getString(cursor.getColumnIndexOrThrow("grooming_frequency_category"));
-                String shedding = cursor.getString(cursor.getColumnIndexOrThrow("shedding_category"));
-                String energyLevel = cursor.getString(cursor.getColumnIndexOrThrow("energy_level_category"));
-                String trainability = cursor.getString(cursor.getColumnIndexOrThrow("trainability_category"));
-                String demeanor = cursor.getString(cursor.getColumnIndexOrThrow("demeanor_category"));
-                String description = cursor.getString(cursor.getColumnIndexOrThrow("description"));
+            String bredFor = cursor.getString(cursor.getColumnIndexOrThrow("bred_for"));
+            String breedGroup = cursor.getString(cursor.getColumnIndexOrThrow("breed_group"));
+            String lifespan = cursor.getString(cursor.getColumnIndexOrThrow("life_span"));
+            String temperament = cursor.getString(cursor.getColumnIndexOrThrow("breed_temperament"));
+            String weightRange = cursor.getString(cursor.getColumnIndexOrThrow("min_weight")) + " kg - " +
+                    cursor.getString(cursor.getColumnIndexOrThrow("max_weight")) + " kg";
+            String heightRange = cursor.getString(cursor.getColumnIndexOrThrow("min_height")) + " cm - " +
+                    cursor.getString(cursor.getColumnIndexOrThrow("max_height")) + " cm";
+            String expectancyRange = cursor.getString(cursor.getColumnIndexOrThrow("min_expectancy")) + " years - " +
+                    cursor.getString(cursor.getColumnIndexOrThrow("max_expectancy")) + " years";
+            String grooming = cursor.getString(cursor.getColumnIndexOrThrow("grooming_frequency_category"));
+            String shedding = cursor.getString(cursor.getColumnIndexOrThrow("shedding_category"));
+            String energyLevel = cursor.getString(cursor.getColumnIndexOrThrow("energy_level_category"));
+            String trainability = cursor.getString(cursor.getColumnIndexOrThrow("trainability_category"));
+            String demeanor = cursor.getString(cursor.getColumnIndexOrThrow("demeanor_category"));
+            String description = cursor.getString(cursor.getColumnIndexOrThrow("description"));
 
-                intent.putExtra("dog_name", dog_name);
+            intent.putExtra("dog_name", dog_name);
 
-                intent.putExtra("bred_for", bredFor);
-                intent.putExtra("breed_group", breedGroup);
-                intent.putExtra("lifespan", lifespan);
-                intent.putExtra("temperament", temperament);
-                intent.putExtra("weight_range", weightRange);
-                intent.putExtra("height_range", heightRange);
-                intent.putExtra("expectancy_range", expectancyRange);
-                intent.putExtra("grooming", grooming);
-                intent.putExtra("shedding", shedding);
-                intent.putExtra("energy_level", energyLevel);
-                intent.putExtra("trainability", trainability);
-                intent.putExtra("demeanor", demeanor);
-                intent.putExtra("description", description);
+            intent.putExtra("bred_for", bredFor);
+            intent.putExtra("breed_group", breedGroup);
+            intent.putExtra("lifespan", lifespan);
+            intent.putExtra("temperament", temperament);
+            intent.putExtra("weight_range", weightRange);
+            intent.putExtra("height_range", heightRange);
+            intent.putExtra("expectancy_range", expectancyRange);
+            intent.putExtra("grooming", grooming);
+            intent.putExtra("shedding", shedding);
+            intent.putExtra("energy_level", energyLevel);
+            intent.putExtra("trainability", trainability);
+            intent.putExtra("demeanor", demeanor);
+            intent.putExtra("description", description);
 
 
-                Log.d("DogNameQuery", "Dog name query: " + cursor.getString(cursor.getColumnIndexOrThrow("name")));
-            } while (cursor.moveToNext());
+            Log.d("DogNameQuery", "Dog name query: " + cursor.getString(cursor.getColumnIndexOrThrow("name")));
         }
         cursor.close();
         db.close();
