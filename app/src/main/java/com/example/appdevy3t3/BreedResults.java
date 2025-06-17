@@ -392,6 +392,7 @@ public class BreedResults extends AppCompatActivity {
                 intent.putExtra("demeanor", demeanor);
                 intent.putExtra("description", description);
 
+
                 Log.d("DogNameQuery", "Dog name query: " + cursor.getString(cursor.getColumnIndexOrThrow("name")));
             } while (cursor.moveToNext());
         }
