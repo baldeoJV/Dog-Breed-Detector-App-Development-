@@ -318,7 +318,7 @@ public class MainActivity extends AppCompatActivity {
 //                "    AND akc.trainability_category IS NOT NULL\n" +
 //                "    AND akc.demeanor_category IS NOT NULL\n" +
 //                "    AND akc.description IS NOT NULL\n" +
-                  "    b.name LIKE '%" + predictedDogName + "%' COLLATE NOCASE;";
+                  "    akc.name LIKE '%" + predictedDogName + "%' COLLATE NOCASE;";
 
         Cursor cursor = db.rawQuery(query, null);
 
