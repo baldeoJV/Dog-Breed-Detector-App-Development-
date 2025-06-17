@@ -52,20 +52,36 @@ public class Dog_Library_Results extends AppCompatActivity {
         // Get values from Intent
         Intent intent = getIntent();
         Glide.with(this).load(intent.getStringExtra("image_url")).into(dogImage);
-        dogName.setText(intent.getStringExtra("dog_name"));
-        bredFor.setText(intent.getStringExtra("bred_for"));
-        breedGroup.setText(intent.getStringExtra("breed_group"));
-        lifespan.setText(intent.getStringExtra("lifespan"));
-        temperament.setText(intent.getStringExtra("temperament"));
-        weightRange.setText(intent.getStringExtra("weight_range"));
-        heightRange.setText(intent.getStringExtra("height_range"));
-        expectancyRange.setText(intent.getStringExtra("expectancy_range"));
-        grooming.setText(intent.getStringExtra("grooming"));
-        shedding.setText(intent.getStringExtra("shedding"));
-        energyLevel.setText(intent.getStringExtra("energy_level"));
-        trainability.setText(intent.getStringExtra("trainability"));
-        demeanor.setText(intent.getStringExtra("demeanor"));
-        description.setText(intent.getStringExtra("description"));
+
+        String name = intent.getStringExtra("dog_name");
+        String bredForStr = intent.getStringExtra("bred_for");
+        String breedGroupStr = intent.getStringExtra("breed_group");
+        String lifespanStr = intent.getStringExtra("lifespan");
+        String temperamentStr = intent.getStringExtra("temperament");
+        String weightRangeStr = intent.getStringExtra("weight_range");
+        String heightRangeStr = intent.getStringExtra("height_range");
+        String expectancyRangeStr = intent.getStringExtra("expectancy_range");
+        String groomingStr = intent.getStringExtra("grooming");
+        String sheddingStr = intent.getStringExtra("shedding");
+        String energyLevelStr = intent.getStringExtra("energy_level");
+        String trainabilityStr = intent.getStringExtra("trainability");
+        String demeanorStr = intent.getStringExtra("demeanor");
+        String descriptionStr = intent.getStringExtra("description");
+
+        dogName.setText(name);
+        bredFor.setText(bredForStr != null ? bredForStr : "(No Information)");
+        breedGroup.setText(breedGroupStr != null ? breedGroupStr : "(No Information)");
+        lifespan.setText(lifespanStr != null ? lifespanStr : "(No Information)");
+        temperament.setText(temperamentStr != null ? temperamentStr : "(No Information)");
+        weightRange.setText(weightRangeStr != null ? weightRangeStr : "(No Information)");
+        heightRange.setText(heightRangeStr != null ? heightRangeStr : "(No Information)");
+        expectancyRange.setText(expectancyRangeStr != null ? expectancyRangeStr : "(No Information)");
+        grooming.setText(groomingStr != null ? groomingStr : "(No Information)");
+        shedding.setText(sheddingStr != null ? sheddingStr : "(No Information)");
+        energyLevel.setText(energyLevelStr != null ? energyLevelStr : "(No Information)");
+        trainability.setText(trainabilityStr != null ? trainabilityStr : "(No Information)");
+        demeanor.setText(demeanorStr != null ? demeanorStr : "(No Information)");
+        description.setText(descriptionStr != null ? descriptionStr : "(No Information)");
 
         backButton = findViewById(R.id.backButton);
 

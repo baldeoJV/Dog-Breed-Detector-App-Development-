@@ -77,6 +77,14 @@ public class BreedResults extends AppCompatActivity {
             Toast.makeText(this, "Failed to load labels", Toast.LENGTH_SHORT).show();
         }
 
+        // alert after predicting the dog model
+        new AlertDialog.Builder(this)
+                .setTitle("Reminder")
+                .setMessage("The breed prediction is not 100% accurate and is based solely on the dog's appearance. For a more reliable assessment, consult a professional.")
+                .setPositiveButton("OK", (dialog, which) -> {})
+                .setCancelable(false) // Optional: prevent dismiss by tapping outside
+                .show();
+
         ImageView imageResults = findViewById(R.id.dogImage);
         String imagePath = getIntent().getStringExtra("image_path");
 
@@ -100,7 +108,6 @@ public class BreedResults extends AppCompatActivity {
         try {
             Intent intent = getIntent();
 
-            String imageUrl = intent.getStringExtra("image_url");
             String name = intent.getStringExtra("dog_name");
             String bredForStr = intent.getStringExtra("bred_for");
             String breedGroupStr = intent.getStringExtra("breed_group");
@@ -214,19 +221,11 @@ public class BreedResults extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         try {
             if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
-                new AlertDialog.Builder(this)
-                        .setTitle("Reminder")
-                        .setMessage("The breed prediction is not 100% accurate and is based solely on the dog's appearance. For a more reliable assessment, consult a professional.")
-                        .setPositiveButton("OK", (dialog, which) -> {
-                            // Call your method only after user taps OK
-                            try {
-                                setUpDgoModels2();
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
-                        })
-                        .setCancelable(false) // Optional: prevent dismiss by tapping outside
-                        .show();
+                try {
+                    setUpDgoModels2();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -312,23 +311,12 @@ public class BreedResults extends AppCompatActivity {
         db = dbHelper.openDatabase();
 
         String query = "SELECT\n" +
-                "    b.id,\n" +
-                "    b.name,\n" +
+                "    akc.name,\n" +
                 "    b.bred_for,\n" +
                 "    b.breed_group,\n" +
                 "    b.life_span,\n" +
                 "    b.temperament AS breed_temperament,\n" +
-                "    b.reference_image_id,\n" +
-                "    b.imperial_weight,\n" +
-                "    b.metric_weight,\n" +
-                "    b.imperial_height,\n" +
-                "    b.metric_height,\n" +
-                "    b.image_id,\n" +
                 "    b.image_url,\n" +
-                "    b.image_width,\n" +
-                "    b.image_height,\n" +
-                "    b.image_blob,\n" +
-                "    \n" +
                 "    akc.description,\n" +
                 "    akc.temperament AS akc_temperament,\n" +
                 "    ROUND(akc.min_height, 2) AS min_height,\n" +
@@ -342,29 +330,31 @@ public class BreedResults extends AppCompatActivity {
                 "    akc.energy_level_category,\n" +
                 "    akc.trainability_category,\n" +
                 "    akc.demeanor_category\n" +
-                "FROM breeds AS b\n" +
-                "JOIN akc_data AS akc ON akc.name = b.name\n" +
+                "FROM akc_data AS akc\n" +
+                "LEFT JOIN breeds AS b ON akc.name = b.name\n" +
                 "WHERE\n" +
-                "    b.bred_for IS NOT NULL\n" +
-                "    AND b.breed_group IS NOT NULL\n" +
-                "    AND b.life_span IS NOT NULL\n" +
-                "    AND b.temperament IS NOT NULL\n" +
-                "    AND akc.min_height IS NOT NULL\n" +
-                "    AND akc.max_height IS NOT NULL\n" +
-                "    AND akc.min_weight IS NOT NULL\n" +
-                "    AND akc.max_weight IS NOT NULL\n" +
-                "    AND akc.min_expectancy IS NOT NULL\n" +
-                "    AND akc.max_expectancy IS NOT NULL\n" +
-                "    AND akc.grooming_frequency_category IS NOT NULL\n" +
-                "    AND akc.shedding_category IS NOT NULL\n" +
-                "    AND akc.energy_level_category IS NOT NULL\n" +
-                "    AND akc.trainability_category IS NOT NULL\n" +
-                "    AND akc.demeanor_category IS NOT NULL\n" +
-                "    AND akc.description IS NOT NULL\n" +
-                "    AND b.name LIKE '%" + predictedDogName + "%' COLLATE NOCASE;";
-
+//                "    b.bred_for IS NOT NULL\n" +
+//                "    AND b.breed_group IS NOT NULL\n" +
+//                "    AND b.life_span IS NOT NULL\n" +
+//                "    AND b.temperament IS NOT NULL\n" +
+//                "    AND akc.min_height IS NOT NULL\n" +
+//                "    AND akc.max_height IS NOT NULL\n" +
+//                "    AND akc.min_weight IS NOT NULL\n" +
+//                "    AND akc.max_weight IS NOT NULL\n" +
+//                "    AND akc.min_expectancy IS NOT NULL\n" +
+//                "    AND akc.max_expectancy IS NOT NULL\n" +
+//                "    AND akc.grooming_frequency_category IS NOT NULL\n" +
+//                "    AND akc.shedding_category IS NOT NULL\n" +
+//                "    AND akc.energy_level_category IS NOT NULL\n" +
+//                "    AND akc.trainability_category IS NOT NULL\n" +
+//                "    AND akc.demeanor_category IS NOT NULL\n" +
+//                "    AND akc.description IS NOT NULL\n" +
+                  "    b.name LIKE '%" + predictedDogName + "%' COLLATE NOCASE;";
 
         Cursor cursor = db.rawQuery(query, null);
+
+        // Log the number of rows returned
+        Log.d("DogLibrary", "Number of rows returned: " + cursor.getCount());
         if (cursor.moveToFirst()) {
             do {
                 String dog_name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
@@ -402,6 +392,7 @@ public class BreedResults extends AppCompatActivity {
                 intent.putExtra("demeanor", demeanor);
                 intent.putExtra("description", description);
 
+                Log.d("DogNameQuery", "Dog name query: " + cursor.getString(cursor.getColumnIndexOrThrow("name")));
             } while (cursor.moveToNext());
         }
         cursor.close();
